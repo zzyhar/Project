@@ -23,3 +23,16 @@ app.listen(3000, () => {
 
 app.use('/api/user', userRouter);
 app.use('/api/auth', authRouter);
+
+
+// midware
+app.use((e, req, res, next) => { 
+    const statusCode = e.statusCode || 500; 
+    const message = e.message || " Internal Server Error";
+    return res.status(statusCode).json({
+        success: false, 
+        statusCode, 
+        message
+    });
+})  
+
