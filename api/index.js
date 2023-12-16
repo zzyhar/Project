@@ -15,16 +15,13 @@ mongoose.connect(process.env.MONGO).then(() => {
 
 const app = express();
 
-app.use(express.json())
-
-app.listen(3000, () => {
+// what is 3000 
+// what is port how does it work 
+app.listen(3000, () => { 
     console.log('Server is running on port 3000');
 })
 
-app.use('/api/user', userRouter);
-app.use('/api/auth', authRouter);
-
-
+app.use(express.json())
 // midware
 app.use((e, req, res, next) => { 
     const statusCode = e.statusCode || 500; 
@@ -35,4 +32,10 @@ app.use((e, req, res, next) => {
         message
     });
 })  
+
+
+app.use('/api/user', userRouter);
+app.use('/api/auth', authRouter);
+
+
 
