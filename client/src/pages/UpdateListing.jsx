@@ -6,7 +6,6 @@ import {
   uploadBytesResumable,
 } from 'firebase/storage';
 import { app } from '../../firebase';
-import { current } from '@reduxjs/toolkit';
 import {useSelector} from "react-redux"
 import { useNavigate, useParams} from 'react-router';
 
@@ -107,7 +106,7 @@ export default function CreateListing(){
   const handleRemoveImage = (index) => { 
     setFormData({
       ...formData, 
-      imageUrls : formData.imageUrls.filter((url, i) => i !== index)
+      imageUrls: formData.imageUrls.filter((_, i) => i !== index)
     })
   }
 
@@ -117,12 +116,12 @@ export default function CreateListing(){
         ...formData,
         type: e.target.id,
       });
-    } else if (e.target.type === "checkbox") {
+    } if (e.target.type === "checkbox") {
       setFormData({
         ...formData,
         [e.target.id]: e.target.checked,
       });
-    } else if (e.target.type === "number" || e.target.type === "text" || e.target.type === "textarea") {
+    }  if (e.target.type === "number" || e.target.type === "text" || e.target.type === "textarea") {
       setFormData({
         ...formData,
         [e.target.id]: e.target.value,
@@ -153,7 +152,7 @@ export default function CreateListing(){
       if (data.success === false) {
         setError(data.message);
       }
-      navigate(`navigate/${data._id}`)
+      navigate(`/listing/${data._id}`)
     } catch (err) {
       setError(err.message);
       setLoading(false);
@@ -304,7 +303,7 @@ export default function CreateListing(){
           formData.imageUrls.length > 0 && formData.imageUrls.map((url, index)=> (
             <div key={url} className="flex justify-between p-3 border items-center" > 
               <img src={url} alt='listing image' className='w-20 h-20 object-contain rounded-lg' />
-              <button type="button"className='p-3 text-red-700 rounded-lg uppercase hover:op-75'>Delete</button>
+              <button type="button" onClick={() => handleRemoveImage(index)} className='p-3 text-red-700 rounded-lg uppercase hover:opacity-75'>Delete</button>
             </div>
           ))
           }
